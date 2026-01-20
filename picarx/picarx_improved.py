@@ -275,7 +275,7 @@ def main():
     if command == 1:
         angle_deg = float(input('angle: '))
         px.set_dir_servo_angle(angle_deg)
-        # px.forward(50)
+        px.forward(50)
 
 
     time.sleep(1)
