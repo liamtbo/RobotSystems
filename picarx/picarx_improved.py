@@ -270,12 +270,12 @@ class Picarx(object):
 def main():
     px = Picarx()
 
-    command = int(input(f'commands:\n\tforward: 1\n\tbackward: 2\n\tparallel-park left:3 \n\tparallel-park right: 4\n\tthree-point left: 5\n\three point right: 6\n'))
+    command = int(input(f'commands:\n\tforward: 1\n\tbackward: 2\n\tparallel-park left:3 \n\tparallel-park right: 4\n\tthree-point left: 5\n\tthree point right: 6\n'))
 
     if command == 1:
         angle_deg = float(input('angle: '))
-        px.dir_current_angle = angle_deg
-        px.forward(50)
+        px.set_dir_servo_angle(angle_deg)
+        # px.forward(50)
 
 
     time.sleep(1)
