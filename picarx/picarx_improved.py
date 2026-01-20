@@ -1,7 +1,14 @@
-from robot_hat import Pin, ADC, PWM, Servo, fileDB
-from robot_hat import Grayscale_Module, Ultrasonic, utils
-import time
 import os
+try:
+    from robot_hat import Pin, ADC, PWM, Servo, fileDB
+    from robot_hat import Grayscale_Module, Ultrasonic, utils
+except ImportError:
+    import sys
+    sys.path.append(os.path.abspath(os.path.join(
+    os.path.dirname(__file__), "..")))
+    from sim_robot_hat import Pin, ADC, PWM, Servo, fileDB
+    from sim_robot_hat import Grayscale_Module, Ultrasonic, utils
+import time
 
 
 def constrain(x, min_val, max_val):
@@ -260,8 +267,20 @@ class Picarx(object):
         self.reset()
         self.ultrasonic.close()
 
-if __name__ == "__main__":
+def main():
     px = Picarx()
-    px.forward(50)
+
+    command = int(input(f'commands:\n\tforward: 1\n\tbackward: 2\n\tparallel-park left:3 \n\tparallel-park right: 4\n\tthree-point left: 5\n\three point right: 6\n'))
+
+    if command == 1:
+        angle_deg = float(input('angle: '))
+        px.dir_current_angle = angle_deg
+        px.forward(50)
+
+
     time.sleep(1)
     px.stop()
+
+
+if __name__ == "__main__":
+    main()
