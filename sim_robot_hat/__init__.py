@@ -7,7 +7,7 @@ from .filedb import fileDB
 from .config import Config
 from .i2c import I2C
 from .modules import *
-from .music import Music
+# from .music import Music
 from .motor import Motor, Motors
 from .pin import Pin
 from .pwm import PWM
