@@ -269,7 +269,7 @@ class Picarx(object):
 
 def main():
     px = Picarx()
-    while(1)
+    while(1):
         command = int(input(f'commands:\n\tforward: 1\n\tbackward: 2\n\tparallel-park left:3 \n\tparallel-park right: 4\n\tthree-point left: 5\n\tthree point right: 6\n'))
 
         if command == 1:
