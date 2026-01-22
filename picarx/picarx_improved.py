@@ -10,6 +10,13 @@ except ImportError:
     from sim_robot_hat import Grayscale_Module, Ultrasonic, utils
 import time
 
+import logging
+logging_format = "%(asctime)s: %(message)s"
+logging.basicConfig(format=logging_format, level=logging.INFO,
+                    datefmt="%H:%M:%S")
+logging.getLogger().setLevel(logging.DEBUG)
+import numpy as np
+
 
 def constrain(x, min_val, max_val):
     '''
@@ -181,7 +188,18 @@ class Picarx(object):
         self.set_motor_speed(1, speed)
         self.set_motor_speed(2, speed)
 
+    def ackerman(self, angle):
+        L = 94.24 # wheel base (mm)
+        T = 117.1 # track width (mm)
+        R = L / np.tan(angle) # turn radius
+
+        in_tire = np.arctan(L / (R - (T / 2)))
+        out_tire = np.arctan(L / (R + (T / 2)))
+        ratio = in_tire / out_tire
+        return ratio
+
     def backward(self, speed):
+        # logging.debug(f'Backward at speed: {speed}')
         current_angle = self.dir_current_angle
         if current_angle != 0:
             abs_current_angle = abs(current_angle)
@@ -199,6 +217,7 @@ class Picarx(object):
             self.set_motor_speed(2, speed)  
 
     def forward(self, speed):
+        # logging.debug(f'Forward at speed: {speed}')
         current_angle = self.dir_current_angle
         if current_angle != 0:
             abs_current_angle = abs(current_angle)
