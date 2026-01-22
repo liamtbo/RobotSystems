@@ -276,21 +276,21 @@ def main():
             if command == 1:
                 angle_deg = float(input('angle: '))
                 px.set_dir_servo_angle(angle_deg)
-                px.forward(50)
+                px.forward(5)
             elif command == 2:
                 angle_deg = float(input('angle: '))
                 px.set_dir_servo_angle(angle_deg)
-                px.backward(50)
+                px.backward(5)
             elif command == 3:
                 px.set_dir_servo_angle(30)
-                px.backward(50)
+                px.backward(5)
                 px.set_dir_servo_angle(-30)
-                px.forward(50)
+                px.forward(5)
             elif command == 4:
                 px.set_dir_servo_angle(-30)
-                px.backward(50)
+                px.backward(5)
                 px.set_dir_servo_angle(30)
-                px.forward(30)
+                px.forward(3)
             else:
                 time.sleep(1)
                 px.stop()
