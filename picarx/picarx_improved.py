@@ -196,7 +196,8 @@ class Picarx(object):
         in_tire = np.arctan(L / (R - (T / 2)))
         out_tire = np.arctan(L / (R + (T / 2)))
         ratio = in_tire / out_tire
-        return ratio
+        logging.debug(f'in_tire: {in_tire}\nout_tire: {out_tire}\nratio: {ratio}')
+        return np.sqrt(ratio ** 2)
 
     def backward(self, speed):
         # logging.debug(f'Backward at speed: {speed}')
@@ -206,11 +207,14 @@ class Picarx(object):
             if abs_current_angle > self.DIR_MAX:
                 abs_current_angle = self.DIR_MAX
             power_scale = (100 - abs_current_angle) / 100.0 
+            power_scale = self.ackerman(abs_current_angle)
             if (current_angle / abs_current_angle) > 0:
+                # logging.debug(f'turning right')
                 self.set_motor_speed(1, -1*speed)
-                self.set_motor_speed(2, speed * power_scale)
+                self.set_motor_speed(2, speed * power_scale) # slower tire
             else:
-                self.set_motor_speed(1, -1*speed * power_scale)
+                # logging.debug(f'turning left')
+                self.set_motor_speed(1, -1*speed * power_scale) # slower tire
                 self.set_motor_speed(2, speed )
         else:
             self.set_motor_speed(1, -1*speed)
@@ -224,12 +228,15 @@ class Picarx(object):
             if abs_current_angle > self.DIR_MAX:
                 abs_current_angle = self.DIR_MAX
             power_scale = (100 - abs_current_angle) / 100.0
+            power_scale = self.ackerman(abs_current_angle)
             if (current_angle / abs_current_angle) > 0:
-                self.set_motor_speed(1, 1*speed * power_scale)
+                logging.debug(f'turning right')
+                self.set_motor_speed(1, 1*speed * power_scale) # slower tire
                 self.set_motor_speed(2, -speed) 
             else:
+                logging.debug(f'turning left')
                 self.set_motor_speed(1, speed)
-                self.set_motor_speed(2, -1*speed * power_scale)
+                self.set_motor_speed(2, -1*speed * power_scale) # slower tire
         else:
             self.set_motor_speed(1, speed)
             self.set_motor_speed(2, -1*speed)                  
